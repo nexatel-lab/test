@@ -1,63 +1,180 @@
 <!-- ============================================================
-  Page : Reprise de flotte mobile d'entreprise
+  Page : Reprise de flotte mobile d'entreprise — Nexatel
+  Style calqué sur https://www.nexatel.fr (thème sombre, accent
+  bleu, vert pour les indicateurs positifs, header clair).
+
   Usage WordPress :
-  - Solution simple : créer une nouvelle Page > ajouter un bloc
-    "HTML personnalisé" > coller tout ce contenu.
-  - Le formulaire en bas envoie les données par email via un
-    service de formulaire (voir note en fin de fichier) car
-    WordPress seul ne traite pas les soumissions de formulaire.
+  - Créer une nouvelle Page > ajouter un bloc "HTML personnalisé"
+    (ou "Bloc personnalisé HTML") > coller tout ce contenu.
+  - Voir la note sur le formulaire en bas du fichier.
 ============================================================= -->
 
 <style>
   .rfm-wrap * { box-sizing: border-box; }
   .rfm-wrap {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    color: #1a1f2b;
+    background: #090d16;
+    color: #e6e9ef;
+    margin: 0;
+  }
+  .rfm-inner {
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 20px;
   }
+
+  /* HEADER (clair, comme le site) */
+  .rfm-topbar {
+    background: #ffffff;
+    color: #1a1f2b;
+    padding: 18px 0;
+  }
+  .rfm-topbar .rfm-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .rfm-logo {
+    font-weight: 800;
+    font-size: 1.3rem;
+    letter-spacing: 0.5px;
+    color: #1a1f2b;
+  }
+  .rfm-logo span { color: #2f6bff; }
+
+  /* HERO sombre */
   .rfm-hero {
-    background: linear-gradient(135deg, #0f2942 0%, #1a4a7a 100%);
-    color: #fff;
-    border-radius: 16px;
-    padding: 60px 40px;
-    margin: 30px 0;
-    text-align: center;
+    padding: 70px 0 60px;
+    background:
+      radial-gradient(circle at 20% 0%, rgba(47,107,255,0.12), transparent 40%),
+      #090d16;
+    border-bottom: 1px solid #1c2333;
+  }
+  .rfm-hero .rfm-inner {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 40px;
+    align-items: center;
+  }
+  @media (max-width: 860px) {
+    .rfm-hero .rfm-inner { grid-template-columns: 1fr; }
+  }
+  .rfm-tag {
+    color: #2f6bff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .rfm-tag::before {
+    content: "●";
+    margin-right: 8px;
   }
   .rfm-hero h1 {
     font-size: 2.4rem;
-    margin: 0 0 16px;
     line-height: 1.2;
+    margin: 0 0 18px;
+    color: #fff;
   }
+  .rfm-hero h1 .rfm-accent { color: #2f6bff; }
   .rfm-hero p {
-    font-size: 1.15rem;
-    max-width: 700px;
-    margin: 0 auto 28px;
-    opacity: 0.92;
+    color: #9aa5b8;
+    font-size: 1.05rem;
+    max-width: 520px;
+    margin: 0 0 28px;
   }
+  .rfm-btn-row { display: flex; gap: 14px; flex-wrap: wrap; }
   .rfm-btn {
     display: inline-block;
-    background: #ffb020;
-    color: #1a1f2b;
+    background: #2f6bff;
+    color: #fff;
     font-weight: 700;
-    padding: 14px 32px;
+    padding: 14px 26px;
     border-radius: 8px;
     text-decoration: none;
-    font-size: 1.05rem;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    font-size: 1rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
   }
-  .rfm-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.25); }
+  .rfm-btn:hover { background: #1d54e0; transform: translateY(-2px); }
+  .rfm-btn-outline {
+    display: inline-block;
+    background: transparent;
+    color: #e6e9ef;
+    font-weight: 700;
+    padding: 14px 26px;
+    border-radius: 8px;
+    border: 1px solid #2a3244;
+    text-decoration: none;
+    font-size: 1rem;
+  }
+  .rfm-btn-outline:hover { border-color: #2f6bff; }
 
-  .rfm-section { padding: 50px 0; }
+  /* Carte estimation (comme le bloc à droite du hero site) */
+  .rfm-estim-card {
+    background: #0f1524;
+    border: 1px solid #1f2740;
+    border-radius: 14px;
+    padding: 24px;
+  }
+  .rfm-estim-card .rfm-estim-label {
+    font-size: 0.75rem;
+    color: #6b7690;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .rfm-estim-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #1f2740;
+    padding-bottom: 16px;
+  }
+  .rfm-badge {
+    background: rgba(34,197,94,0.15);
+    color: #22c55e;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+  .rfm-estim-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 0.92rem;
+    color: #9aa5b8;
+  }
+  .rfm-estim-row strong { color: #e6e9ef; }
+  .rfm-estim-row.rfm-green strong { color: #22c55e; font-family: monospace; }
+  .rfm-estim-total {
+    margin-top: 12px;
+    background: #131c33;
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .rfm-estim-total span:first-child { color: #9aa5b8; font-size: 0.9rem; }
+  .rfm-estim-total span:last-child { color: #2f6bff; font-weight: 800; font-size: 1.3rem; }
+
+  /* SECTIONS */
+  .rfm-section { padding: 60px 0; }
   .rfm-section h2 {
     text-align: center;
     font-size: 1.8rem;
     margin-bottom: 12px;
+    color: #fff;
   }
   .rfm-section .rfm-sub {
     text-align: center;
-    color: #5a6472;
+    color: #9aa5b8;
     max-width: 600px;
     margin: 0 auto 40px;
   }
@@ -67,36 +184,28 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
   }
-  @media (max-width: 780px) {
-    .rfm-grid3 { grid-template-columns: 1fr; }
-    .rfm-hero h1 { font-size: 1.8rem; }
-    .rfm-hero { padding: 40px 20px; }
-  }
+  @media (max-width: 780px) { .rfm-grid3 { grid-template-columns: 1fr; } }
 
   .rfm-card {
-    background: #f7f9fc;
-    border: 1px solid #e6eaf0;
+    background: #0f1524;
+    border: 1px solid #1f2740;
     border-radius: 12px;
     padding: 28px 24px;
   }
   .rfm-card .rfm-icon { font-size: 2rem; margin-bottom: 12px; }
-  .rfm-card h3 { margin: 0 0 10px; font-size: 1.15rem; }
-  .rfm-card p { margin: 0; color: #5a6472; font-size: 0.95rem; }
+  .rfm-card h3 { margin: 0 0 10px; font-size: 1.1rem; color: #fff; }
+  .rfm-card p { margin: 0; color: #9aa5b8; font-size: 0.95rem; }
 
   .rfm-steps {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
-    counter-reset: step;
   }
   @media (max-width: 780px) { .rfm-steps { grid-template-columns: 1fr 1fr; } }
-  .rfm-step {
-    text-align: center;
-    padding: 20px 10px;
-  }
+  .rfm-step { text-align: center; padding: 20px 10px; }
   .rfm-step .rfm-num {
     width: 42px; height: 42px;
-    background: #1a4a7a;
+    background: #2f6bff;
     color: #fff;
     border-radius: 50%;
     display: flex;
@@ -105,11 +214,13 @@
     font-weight: 700;
     margin: 0 auto 14px;
   }
-  .rfm-step h4 { margin: 0 0 6px; font-size: 1rem; }
-  .rfm-step p { margin: 0; font-size: 0.9rem; color: #5a6472; }
+  .rfm-step h4 { margin: 0 0 6px; font-size: 1rem; color: #fff; }
+  .rfm-step p { margin: 0; font-size: 0.9rem; color: #9aa5b8; }
 
+  /* FORMULAIRE */
   .rfm-form-section {
-    background: #f0f4f9;
+    background: #0f1524;
+    border: 1px solid #1f2740;
     border-radius: 16px;
     padding: 40px;
   }
@@ -124,19 +235,26 @@
     font-weight: 600;
     margin-bottom: 4px;
     display: block;
+    color: #e6e9ef;
   }
   .rfm-form input, .rfm-form select, .rfm-form textarea {
     width: 100%;
     padding: 12px 14px;
-    border: 1px solid #cbd5e1;
+    border: 1px solid #2a3244;
     border-radius: 8px;
     font-size: 0.95rem;
     font-family: inherit;
+    background: #090d16;
+    color: #e6e9ef;
+  }
+  .rfm-form input:focus, .rfm-form select:focus, .rfm-form textarea:focus {
+    outline: none;
+    border-color: #2f6bff;
   }
   .rfm-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   @media (max-width: 600px) { .rfm-form-row { grid-template-columns: 1fr; } }
   .rfm-submit {
-    background: #1a4a7a;
+    background: #2f6bff;
     color: #fff;
     border: none;
     padding: 14px;
@@ -145,154 +263,198 @@
     font-weight: 700;
     cursor: pointer;
   }
-  .rfm-submit:hover { background: #0f2942; }
-  .rfm-note {
-    text-align: center;
-    font-size: 0.85rem;
-    color: #5a6472;
-    margin-top: 10px;
-  }
+  .rfm-submit:hover { background: #1d54e0; }
+  .rfm-note { text-align: center; font-size: 0.85rem; color: #6b7690; margin-top: 10px; }
   .rfm-confirm {
     display: none;
     text-align: center;
     font-weight: 600;
-    color: #1a7a3d;
+    color: #22c55e;
     margin-top: 16px;
+  }
+
+  .rfm-footer {
+    text-align: center;
+    padding: 30px 0;
+    color: #6b7690;
+    font-size: 0.85rem;
+    border-top: 1px solid #1c2333;
   }
 </style>
 
 <div class="rfm-wrap">
 
+  <!-- HEADER -->
+  <div class="rfm-topbar">
+    <div class="rfm-inner">
+      <div class="rfm-logo">NEXA<span>TEL</span></div>
+      <div style="font-size:0.85rem;color:#5a6472;">Reprise de flotte mobile d'entreprise</div>
+    </div>
+  </div>
+
   <!-- HERO -->
   <section class="rfm-hero">
-    <h1>Reprise de votre flotte mobile d'entreprise</h1>
-    <p>Valorisez vos smartphones et tablettes professionnels en fin de contrat. Estimation rapide, enlèvement gratuit, effacement sécurisé des données et paiement sous 15 jours.</p>
-    <a href="#rfm-devis" class="rfm-btn">Obtenir une estimation gratuite</a>
+    <div class="rfm-inner">
+      <div>
+        <div class="rfm-tag">Reprise de flotte professionnelle</div>
+        <h1>Revalorisez votre flotte.<br><span class="rfm-accent">Paiement sous 15 jours.</span></h1>
+        <p>Nexatel rachète vos smartphones et tablettes professionnels en fin de contrat : estimation immédiate, enlèvement gratuit partout en France et effacement sécurisé des données.</p>
+        <div class="rfm-btn-row">
+          <a href="#rfm-devis" class="rfm-btn">Demander une estimation gratuite →</a>
+          <a href="#rfm-avantages" class="rfm-btn-outline">Voir les avantages</a>
+        </div>
+      </div>
+
+      <div class="rfm-estim-card">
+        <div class="rfm-estim-label">Exemple — flotte 20 appareils</div>
+        <div class="rfm-estim-title">
+          iPhone 13 · 128 Go
+          <span class="rfm-badge">● Grade A</span>
+        </div>
+        <div class="rfm-estim-row"><span>Prix de reprise (Grade A)</span><strong>270 €</strong></div>
+        <div class="rfm-estim-row"><span>Enlèvement</span><strong>Gratuit</strong></div>
+        <div class="rfm-estim-row"><span>Effacement des données</span><strong>Certifié RGPD</strong></div>
+        <div class="rfm-estim-row rfm-green"><span>Délai de paiement</span><strong>15 jours</strong></div>
+        <div class="rfm-estim-total">
+          <span>Valorisation flotte (20 appareils)</span>
+          <span>5 400 €</span>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- AVANTAGES -->
-  <section class="rfm-section">
-    <h2>Pourquoi confier votre flotte à nos experts ?</h2>
-    <p class="rfm-sub">Un service pensé pour les DSI et gestionnaires de parc mobile.</p>
-    <div class="rfm-grid3">
-      <div class="rfm-card">
-        <div class="rfm-icon">💰</div>
-        <h3>Valorisation optimale</h3>
-        <p>Estimation basée sur la cote de marché en temps réel, par lot ou à l'unité.</p>
-      </div>
-      <div class="rfm-card">
-        <div class="rfm-icon">🔒</div>
-        <h3>Effacement RGPD</h3>
-        <p>Effacement certifié des données conforme aux normes de sécurité (certificat fourni).</p>
-      </div>
-      <div class="rfm-card">
-        <div class="rfm-icon">🚚</div>
-        <h3>Enlèvement gratuit</h3>
-        <p>Collecte sur site partout en France, quel que soit le volume de votre flotte.</p>
-      </div>
-      <div class="rfm-card">
-        <div class="rfm-icon">♻️</div>
-        <h3>Démarche éco-responsable</h3>
-        <p>Reconditionnement ou recyclage responsable, bilan carbone à l'appui.</p>
-      </div>
-      <div class="rfm-card">
-        <div class="rfm-icon">⚡</div>
-        <h3>Paiement rapide</h3>
-        <p>Virement sous 15 jours après validation de l'état des appareils.</p>
-      </div>
-      <div class="rfm-card">
-        <div class="rfm-icon">📋</div>
-        <h3>Suivi personnalisé</h3>
-        <p>Un interlocuteur dédié et un rapport détaillé pour chaque appareil repris.</p>
+  <section class="rfm-section" id="rfm-avantages">
+    <div class="rfm-inner">
+      <h2>Pourquoi confier votre flotte à Nexatel ?</h2>
+      <p class="rfm-sub">Un service pensé pour les DSI et gestionnaires de parc mobile.</p>
+      <div class="rfm-grid3">
+        <div class="rfm-card">
+          <div class="rfm-icon">💰</div>
+          <h3>Valorisation optimale</h3>
+          <p>Estimation basée sur la cote de marché en temps réel, par lot ou à l'unité.</p>
+        </div>
+        <div class="rfm-card">
+          <div class="rfm-icon">🔒</div>
+          <h3>Effacement RGPD</h3>
+          <p>Effacement certifié des données conforme aux normes de sécurité (certificat fourni).</p>
+        </div>
+        <div class="rfm-card">
+          <div class="rfm-icon">🚚</div>
+          <h3>Enlèvement gratuit</h3>
+          <p>Collecte sur site partout en France, quel que soit le volume de votre flotte.</p>
+        </div>
+        <div class="rfm-card">
+          <div class="rfm-icon">♻️</div>
+          <h3>Démarche éco-responsable</h3>
+          <p>Reconditionnement ou recyclage responsable, bilan carbone à l'appui.</p>
+        </div>
+        <div class="rfm-card">
+          <div class="rfm-icon">⚡</div>
+          <h3>Paiement rapide</h3>
+          <p>Virement sous 15 jours après validation de l'état des appareils.</p>
+        </div>
+        <div class="rfm-card">
+          <div class="rfm-icon">📋</div>
+          <h3>Suivi personnalisé</h3>
+          <p>Un interlocuteur dédié et un rapport détaillé pour chaque appareil repris.</p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- PROCESS -->
   <section class="rfm-section">
-    <h2>Comment ça marche ?</h2>
-    <p class="rfm-sub">Un processus simple en 4 étapes.</p>
-    <div class="rfm-steps">
-      <div class="rfm-step">
-        <div class="rfm-num">1</div>
-        <h4>Devis</h4>
-        <p>Vous nous transmettez la liste et l'état de vos appareils.</p>
-      </div>
-      <div class="rfm-step">
-        <div class="rfm-num">2</div>
-        <h4>Estimation</h4>
-        <p>Nous vous envoyons une offre chiffrée sous 24h.</p>
-      </div>
-      <div class="rfm-step">
-        <div class="rfm-num">3</div>
-        <h4>Enlèvement</h4>
-        <p>Collecte sur site et effacement sécurisé des données.</p>
-      </div>
-      <div class="rfm-step">
-        <div class="rfm-num">4</div>
-        <h4>Paiement</h4>
-        <p>Virement et certificat de destruction/reconditionnement.</p>
+    <div class="rfm-inner">
+      <h2>Comment ça marche ?</h2>
+      <p class="rfm-sub">Un processus simple en 4 étapes.</p>
+      <div class="rfm-steps">
+        <div class="rfm-step">
+          <div class="rfm-num">1</div>
+          <h4>Devis</h4>
+          <p>Vous nous transmettez la liste et l'état de vos appareils.</p>
+        </div>
+        <div class="rfm-step">
+          <div class="rfm-num">2</div>
+          <h4>Estimation</h4>
+          <p>Nous vous envoyons une offre chiffrée sous 24h.</p>
+        </div>
+        <div class="rfm-step">
+          <div class="rfm-num">3</div>
+          <h4>Enlèvement</h4>
+          <p>Collecte sur site et effacement sécurisé des données.</p>
+        </div>
+        <div class="rfm-step">
+          <div class="rfm-num">4</div>
+          <h4>Paiement</h4>
+          <p>Virement et certificat de destruction/reconditionnement.</p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- FORMULAIRE -->
-  <section class="rfm-section rfm-form-section" id="rfm-devis">
-    <h2>Demander une estimation gratuite</h2>
-    <p class="rfm-sub">Remplissez ce formulaire, nous revenons vers vous sous 24h ouvrées.</p>
+  <section class="rfm-section" id="rfm-devis">
+    <div class="rfm-inner">
+      <div class="rfm-form-section">
+        <h2>Demander une estimation gratuite</h2>
+        <p class="rfm-sub">Remplissez ce formulaire, notre équipe revient vers vous sous 24h ouvrées.</p>
 
-    <form class="rfm-form" id="rfm-form">
-      <div class="rfm-form-row">
-        <div>
-          <label for="rfm-name">Nom et prénom *</label>
-          <input type="text" id="rfm-name" name="nom" required>
-        </div>
-        <div>
-          <label for="rfm-company">Société *</label>
-          <input type="text" id="rfm-company" name="societe" required>
-        </div>
+        <form class="rfm-form" id="rfm-form">
+          <div class="rfm-form-row">
+            <div>
+              <label for="rfm-name">Nom et prénom *</label>
+              <input type="text" id="rfm-name" name="nom" required>
+            </div>
+            <div>
+              <label for="rfm-company">Société *</label>
+              <input type="text" id="rfm-company" name="societe" required>
+            </div>
+          </div>
+          <div class="rfm-form-row">
+            <div>
+              <label for="rfm-email">Email professionnel *</label>
+              <input type="email" id="rfm-email" name="email" required>
+            </div>
+            <div>
+              <label for="rfm-phone">Téléphone *</label>
+              <input type="tel" id="rfm-phone" name="telephone" required>
+            </div>
+          </div>
+          <div class="rfm-form-row">
+            <div>
+              <label for="rfm-qty">Nombre d'appareils *</label>
+              <select id="rfm-qty" name="quantite" required>
+                <option value="">Sélectionner</option>
+                <option value="1-10">1 à 10</option>
+                <option value="11-50">11 à 50</option>
+                <option value="51-200">51 à 200</option>
+                <option value="200+">Plus de 200</option>
+              </select>
+            </div>
+            <div>
+              <label for="rfm-type">Type d'appareils *</label>
+              <select id="rfm-type" name="type_appareil" required>
+                <option value="">Sélectionner</option>
+                <option value="smartphones">Smartphones</option>
+                <option value="tablettes">Tablettes</option>
+                <option value="mixte">Mixte (smartphones + tablettes)</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="rfm-message">Précisions (modèles, état, marques...)</label>
+            <textarea id="rfm-message" name="message" rows="4"></textarea>
+          </div>
+          <button type="submit" class="rfm-submit">Recevoir mon estimation gratuite</button>
+          <p class="rfm-note">En soumettant ce formulaire, vous acceptez d'être recontacté au sujet de votre demande.</p>
+          <p class="rfm-confirm" id="rfm-confirm">✅ Merci ! Votre demande a bien été envoyée, nous revenons vers vous rapidement.</p>
+        </form>
       </div>
-      <div class="rfm-form-row">
-        <div>
-          <label for="rfm-email">Email professionnel *</label>
-          <input type="email" id="rfm-email" name="email" required>
-        </div>
-        <div>
-          <label for="rfm-phone">Téléphone *</label>
-          <input type="tel" id="rfm-phone" name="telephone" required>
-        </div>
-      </div>
-      <div class="rfm-form-row">
-        <div>
-          <label for="rfm-qty">Nombre d'appareils *</label>
-          <select id="rfm-qty" name="quantite" required>
-            <option value="">Sélectionner</option>
-            <option value="1-10">1 à 10</option>
-            <option value="11-50">11 à 50</option>
-            <option value="51-200">51 à 200</option>
-            <option value="200+">Plus de 200</option>
-          </select>
-        </div>
-        <div>
-          <label for="rfm-type">Type d'appareils *</label>
-          <select id="rfm-type" name="type_appareil" required>
-            <option value="">Sélectionner</option>
-            <option value="smartphones">Smartphones</option>
-            <option value="tablettes">Tablettes</option>
-            <option value="mixte">Mixte (smartphones + tablettes)</option>
-          </select>
-        </div>
-      </div>
-      <div>
-        <label for="rfm-message">Précisions (modèles, état, marques...)</label>
-        <textarea id="rfm-message" name="message" rows="4"></textarea>
-      </div>
-      <button type="submit" class="rfm-submit">Recevoir mon estimation gratuite</button>
-      <p class="rfm-note">En soumettant ce formulaire, vous acceptez d'être recontacté au sujet de votre demande.</p>
-      <p class="rfm-confirm" id="rfm-confirm">✅ Merci ! Votre demande a bien été envoyée, nous revenons vers vous rapidement.</p>
-    </form>
+    </div>
   </section>
 
+  <div class="rfm-footer">Nexatel — Reprise et reconditionnement de flottes mobiles professionnelles</div>
 </div>
 
 <script>
@@ -304,8 +466,6 @@
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     // TODO : remplacer ce bloc par un envoi réel (voir note ci-dessous).
-    // Exemple avec Contact Form 7 / WPForms : ce script n'est pas nécessaire,
-    // ces plugins gèrent nativement l'envoi du formulaire.
     console.log('Données du formulaire :', Object.fromEntries(new FormData(form)));
     confirm.style.display = 'block';
     form.reset();
@@ -321,12 +481,13 @@
 
   1) SIMPLE (recommandé) : installer le plugin gratuit
      "Contact Form 7" ou "WPForms Lite", recréer les mêmes champs
-     avec leur générateur de formulaire, et remplacer la balise
+     avec leur générateur, et remplacer la balise
      <form>...</form> ci-dessus par leur shortcode
      (ex: [contact-form-7 id="123" title="Devis flotte"]).
+     Pense à réappliquer les styles de la classe .rfm-form si besoin,
+     ou dis-moi et je t'écris le CSS adapté au shortcode généré.
 
-  2) AVANCÉ : brancher ce formulaire sur un endpoint (ex: un
-     service comme Formspree, ou une action WordPress personnalisée
-     via admin-ajax.php) — dites-le-moi si vous voulez cette option,
-     je peux écrire le code PHP correspondant.
+  2) AVANCÉ : brancher ce formulaire sur un endpoint personnalisé
+     (ex: admin-ajax.php + envoi via wp_mail côté PHP) — dis-le-moi
+     si tu veux cette option, je fournis le code PHP correspondant.
 ============================================================= -->
