@@ -1,0 +1,332 @@
+<!-- ============================================================
+  Page : Reprise de flotte mobile d'entreprise
+  Usage WordPress :
+  - Solution simple : créer une nouvelle Page > ajouter un bloc
+    "HTML personnalisé" > coller tout ce contenu.
+  - Le formulaire en bas envoie les données par email via un
+    service de formulaire (voir note en fin de fichier) car
+    WordPress seul ne traite pas les soumissions de formulaire.
+============================================================= -->
+
+<style>
+  .rfm-wrap * { box-sizing: border-box; }
+  .rfm-wrap {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    color: #1a1f2b;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .rfm-hero {
+    background: linear-gradient(135deg, #0f2942 0%, #1a4a7a 100%);
+    color: #fff;
+    border-radius: 16px;
+    padding: 60px 40px;
+    margin: 30px 0;
+    text-align: center;
+  }
+  .rfm-hero h1 {
+    font-size: 2.4rem;
+    margin: 0 0 16px;
+    line-height: 1.2;
+  }
+  .rfm-hero p {
+    font-size: 1.15rem;
+    max-width: 700px;
+    margin: 0 auto 28px;
+    opacity: 0.92;
+  }
+  .rfm-btn {
+    display: inline-block;
+    background: #ffb020;
+    color: #1a1f2b;
+    font-weight: 700;
+    padding: 14px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1.05rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .rfm-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.25); }
+
+  .rfm-section { padding: 50px 0; }
+  .rfm-section h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+  }
+  .rfm-section .rfm-sub {
+    text-align: center;
+    color: #5a6472;
+    max-width: 600px;
+    margin: 0 auto 40px;
+  }
+
+  .rfm-grid3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 780px) {
+    .rfm-grid3 { grid-template-columns: 1fr; }
+    .rfm-hero h1 { font-size: 1.8rem; }
+    .rfm-hero { padding: 40px 20px; }
+  }
+
+  .rfm-card {
+    background: #f7f9fc;
+    border: 1px solid #e6eaf0;
+    border-radius: 12px;
+    padding: 28px 24px;
+  }
+  .rfm-card .rfm-icon { font-size: 2rem; margin-bottom: 12px; }
+  .rfm-card h3 { margin: 0 0 10px; font-size: 1.15rem; }
+  .rfm-card p { margin: 0; color: #5a6472; font-size: 0.95rem; }
+
+  .rfm-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    counter-reset: step;
+  }
+  @media (max-width: 780px) { .rfm-steps { grid-template-columns: 1fr 1fr; } }
+  .rfm-step {
+    text-align: center;
+    padding: 20px 10px;
+  }
+  .rfm-step .rfm-num {
+    width: 42px; height: 42px;
+    background: #1a4a7a;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin: 0 auto 14px;
+  }
+  .rfm-step h4 { margin: 0 0 6px; font-size: 1rem; }
+  .rfm-step p { margin: 0; font-size: 0.9rem; color: #5a6472; }
+
+  .rfm-form-section {
+    background: #f0f4f9;
+    border-radius: 16px;
+    padding: 40px;
+  }
+  .rfm-form {
+    max-width: 560px;
+    margin: 0 auto;
+    display: grid;
+    gap: 16px;
+  }
+  .rfm-form label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .rfm-form input, .rfm-form select, .rfm-form textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+  .rfm-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .rfm-form-row { grid-template-columns: 1fr; } }
+  .rfm-submit {
+    background: #1a4a7a;
+    color: #fff;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .rfm-submit:hover { background: #0f2942; }
+  .rfm-note {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #5a6472;
+    margin-top: 10px;
+  }
+  .rfm-confirm {
+    display: none;
+    text-align: center;
+    font-weight: 600;
+    color: #1a7a3d;
+    margin-top: 16px;
+  }
+</style>
+
+<div class="rfm-wrap">
+
+  <!-- HERO -->
+  <section class="rfm-hero">
+    <h1>Reprise de votre flotte mobile d'entreprise</h1>
+    <p>Valorisez vos smartphones et tablettes professionnels en fin de contrat. Estimation rapide, enlèvement gratuit, effacement sécurisé des données et paiement sous 15 jours.</p>
+    <a href="#rfm-devis" class="rfm-btn">Obtenir une estimation gratuite</a>
+  </section>
+
+  <!-- AVANTAGES -->
+  <section class="rfm-section">
+    <h2>Pourquoi confier votre flotte à nos experts ?</h2>
+    <p class="rfm-sub">Un service pensé pour les DSI et gestionnaires de parc mobile.</p>
+    <div class="rfm-grid3">
+      <div class="rfm-card">
+        <div class="rfm-icon">💰</div>
+        <h3>Valorisation optimale</h3>
+        <p>Estimation basée sur la cote de marché en temps réel, par lot ou à l'unité.</p>
+      </div>
+      <div class="rfm-card">
+        <div class="rfm-icon">🔒</div>
+        <h3>Effacement RGPD</h3>
+        <p>Effacement certifié des données conforme aux normes de sécurité (certificat fourni).</p>
+      </div>
+      <div class="rfm-card">
+        <div class="rfm-icon">🚚</div>
+        <h3>Enlèvement gratuit</h3>
+        <p>Collecte sur site partout en France, quel que soit le volume de votre flotte.</p>
+      </div>
+      <div class="rfm-card">
+        <div class="rfm-icon">♻️</div>
+        <h3>Démarche éco-responsable</h3>
+        <p>Reconditionnement ou recyclage responsable, bilan carbone à l'appui.</p>
+      </div>
+      <div class="rfm-card">
+        <div class="rfm-icon">⚡</div>
+        <h3>Paiement rapide</h3>
+        <p>Virement sous 15 jours après validation de l'état des appareils.</p>
+      </div>
+      <div class="rfm-card">
+        <div class="rfm-icon">📋</div>
+        <h3>Suivi personnalisé</h3>
+        <p>Un interlocuteur dédié et un rapport détaillé pour chaque appareil repris.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="rfm-section">
+    <h2>Comment ça marche ?</h2>
+    <p class="rfm-sub">Un processus simple en 4 étapes.</p>
+    <div class="rfm-steps">
+      <div class="rfm-step">
+        <div class="rfm-num">1</div>
+        <h4>Devis</h4>
+        <p>Vous nous transmettez la liste et l'état de vos appareils.</p>
+      </div>
+      <div class="rfm-step">
+        <div class="rfm-num">2</div>
+        <h4>Estimation</h4>
+        <p>Nous vous envoyons une offre chiffrée sous 24h.</p>
+      </div>
+      <div class="rfm-step">
+        <div class="rfm-num">3</div>
+        <h4>Enlèvement</h4>
+        <p>Collecte sur site et effacement sécurisé des données.</p>
+      </div>
+      <div class="rfm-step">
+        <div class="rfm-num">4</div>
+        <h4>Paiement</h4>
+        <p>Virement et certificat de destruction/reconditionnement.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMULAIRE -->
+  <section class="rfm-section rfm-form-section" id="rfm-devis">
+    <h2>Demander une estimation gratuite</h2>
+    <p class="rfm-sub">Remplissez ce formulaire, nous revenons vers vous sous 24h ouvrées.</p>
+
+    <form class="rfm-form" id="rfm-form">
+      <div class="rfm-form-row">
+        <div>
+          <label for="rfm-name">Nom et prénom *</label>
+          <input type="text" id="rfm-name" name="nom" required>
+        </div>
+        <div>
+          <label for="rfm-company">Société *</label>
+          <input type="text" id="rfm-company" name="societe" required>
+        </div>
+      </div>
+      <div class="rfm-form-row">
+        <div>
+          <label for="rfm-email">Email professionnel *</label>
+          <input type="email" id="rfm-email" name="email" required>
+        </div>
+        <div>
+          <label for="rfm-phone">Téléphone *</label>
+          <input type="tel" id="rfm-phone" name="telephone" required>
+        </div>
+      </div>
+      <div class="rfm-form-row">
+        <div>
+          <label for="rfm-qty">Nombre d'appareils *</label>
+          <select id="rfm-qty" name="quantite" required>
+            <option value="">Sélectionner</option>
+            <option value="1-10">1 à 10</option>
+            <option value="11-50">11 à 50</option>
+            <option value="51-200">51 à 200</option>
+            <option value="200+">Plus de 200</option>
+          </select>
+        </div>
+        <div>
+          <label for="rfm-type">Type d'appareils *</label>
+          <select id="rfm-type" name="type_appareil" required>
+            <option value="">Sélectionner</option>
+            <option value="smartphones">Smartphones</option>
+            <option value="tablettes">Tablettes</option>
+            <option value="mixte">Mixte (smartphones + tablettes)</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label for="rfm-message">Précisions (modèles, état, marques...)</label>
+        <textarea id="rfm-message" name="message" rows="4"></textarea>
+      </div>
+      <button type="submit" class="rfm-submit">Recevoir mon estimation gratuite</button>
+      <p class="rfm-note">En soumettant ce formulaire, vous acceptez d'être recontacté au sujet de votre demande.</p>
+      <p class="rfm-confirm" id="rfm-confirm">✅ Merci ! Votre demande a bien été envoyée, nous revenons vers vous rapidement.</p>
+    </form>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  var form = document.getElementById('rfm-form');
+  var confirm = document.getElementById('rfm-confirm');
+  if (!form) return;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    // TODO : remplacer ce bloc par un envoi réel (voir note ci-dessous).
+    // Exemple avec Contact Form 7 / WPForms : ce script n'est pas nécessaire,
+    // ces plugins gèrent nativement l'envoi du formulaire.
+    console.log('Données du formulaire :', Object.fromEntries(new FormData(form)));
+    confirm.style.display = 'block';
+    form.reset();
+  });
+})();
+</script>
+
+<!-- ============================================================
+  NOTE IMPORTANTE SUR L'ENVOI DU FORMULAIRE :
+  Ce formulaire HTML seul n'envoie pas d'email : WordPress ne
+  traite pas nativement les soumissions. Pour recevoir les
+  demandes par email, deux options :
+
+  1) SIMPLE (recommandé) : installer le plugin gratuit
+     "Contact Form 7" ou "WPForms Lite", recréer les mêmes champs
+     avec leur générateur de formulaire, et remplacer la balise
+     <form>...</form> ci-dessus par leur shortcode
+     (ex: [contact-form-7 id="123" title="Devis flotte"]).
+
+  2) AVANCÉ : brancher ce formulaire sur un endpoint (ex: un
+     service comme Formspree, ou une action WordPress personnalisée
+     via admin-ajax.php) — dites-le-moi si vous voulez cette option,
+     je peux écrire le code PHP correspondant.
+============================================================= -->
